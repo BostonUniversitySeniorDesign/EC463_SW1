@@ -10,8 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "barcode-react-scanner": "^1.2.0",
     "react": "17.0.2",
-    "react-native": "0.65.1"
+    "react-native": "0.65.1",
+    "react-native-axios": "^0.17.1"
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
