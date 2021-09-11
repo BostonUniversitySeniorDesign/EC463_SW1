@@ -12,6 +12,10 @@ target 'sw1' do
     :hermes_enabled => false
   )
 
+  
+  pod 'GoogleSignIn', '~> 6.0.0'
+
+
   target 'sw1Tests' do
     inherit! :complete
     # Pods for testing
