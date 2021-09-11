@@ -10,10 +10,33 @@
     "lint": "eslint ."
   },
   "dependencies": {
+<<<<<<< HEAD
     "barcode-react-scanner": "^1.2.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-axios": "^0.17.1"
+=======
+    "@react-native-async-storage/async-storage": "^1.15.7",
+    "@react-native-firebase/app": "^12.1.0",
+    "@react-native-firebase/auth": "^12.1.0",
+    "@react-native-firebase/firestore": "^12.1.0",
+    "@react-native-firebase/storage": "^12.1.0",
+    "@react-native-google-signin/google-signin": "^7.0.0-alpha.3",
+    "@react-navigation/bottom-tabs": "^6.0.5",
+    "@react-navigation/drawer": "^6.1.4",
+    "@react-navigation/elements": "^1.1.0",
+    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/stack": "^6.0.7",
+    "react": "17.0.2",
+    "react-native": "0.65.1",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-crop-picker": "^0.36.2",
+    "react-native-paper": "^4.9.2",
+    "react-native-reanimated": "^2.2.0",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-vector-icons": "^8.1.0",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+>>>>>>> d1abd380828fef3e24b8f8e323bc69ab965f8d9a
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
