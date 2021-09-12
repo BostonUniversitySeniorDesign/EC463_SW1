@@ -13,8 +13,11 @@ target 'sw1' do
   )
 
   
-  pod 'GoogleSignIn', '~> 6.0.0'
+  pod 'GoogleSignIn', '~> 5.0.0'
 
+  pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [
+    'BarcodeDetectorMLKit'
+  ]
 
   target 'sw1Tests' do
     inherit! :complete
@@ -26,8 +29,9 @@ target 'sw1' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
   use_flipper!()
-
   post_install do |installer|
     react_native_post_install(installer)
+        installer.pods_project.build_configurations.each do |config| config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] =  "arm64"
+        end
   end
 end

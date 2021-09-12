@@ -10,41 +10,47 @@
     "lint": "eslint ."
   },
   "dependencies": {
+<<<<<<< HEAD
     "barcode-react-scanner": "^1.2.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-axios": "^0.17.1"
     "@react-native-async-storage/async-storage": "^1.15.7",
+=======
+    "@react-native-async-storage/async-storage": "^1.15.5",
+>>>>>>> 26919f9655af54ea5b153e089efe6b233d681dea
     "@react-native-firebase/app": "^12.1.0",
     "@react-native-firebase/auth": "^12.1.0",
     "@react-native-firebase/firestore": "^12.1.0",
     "@react-native-firebase/storage": "^12.1.0",
-    "@react-native-google-signin/google-signin": "^7.0.0-alpha.3",
-    "@react-navigation/bottom-tabs": "^6.0.5",
-    "@react-navigation/drawer": "^6.1.4",
-    "@react-navigation/elements": "^1.1.0",
-    "@react-navigation/native": "^6.0.2",
-    "@react-navigation/stack": "^6.0.7",
-    "react": "17.0.2",
-    "react-native": "0.65.1",
+    "@react-native-google-signin/google-signin": "^6.0.1",
+    "@react-navigation/bottom-tabs": "^5.11.11",
+    "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.5",
+    "react": "^17.0.1",
+    "react-native": "0.64.2",
+    "react-native-barcode-mask": "^1.2.4",
+    "react-native-camera": "^4.1.1",
+    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-image-crop-picker": "^0.36.2",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "^2.2.0",
-    "react-native-safe-area-context": "^3.3.2",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.4.0",
     "react-native-vector-icons": "^8.1.0",
+    "react-navigation": "^4.4.4",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22"
   },
   "devDependencies": {
-    "@babel/core": "7.15.5",
-    "@babel/runtime": "7.15.4",
+    "@babel/core": "7.14.6",
+    "@babel/runtime": "7.14.6",
     "@react-native-community/eslint-config": "2.0.0",
     "babel-jest": "26.6.3",
     "eslint": "7.14.0",
+    "flow-bin": "0.107.0",
     "jest": "26.6.3",
-    "metro-react-native-babel-preset": "0.66.2",
-    "react-native-codegen": "^0.0.7",
-    "react-test-renderer": "17.0.2"
+    "metro-react-native-babel-preset": "0.64.0",
+    "react-test-renderer": "17.0.1"
   },
   "jest": {
     "preset": "react-native"
