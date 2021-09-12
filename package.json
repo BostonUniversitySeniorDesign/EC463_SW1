@@ -10,12 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-<<<<<<< HEAD
     "barcode-react-scanner": "^1.2.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-axios": "^0.17.1"
-=======
     "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-native-firebase/app": "^12.1.0",
     "@react-native-firebase/auth": "^12.1.0",
@@ -36,7 +34,6 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-vector-icons": "^8.1.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22"
->>>>>>> d1abd380828fef3e24b8f8e323bc69ab965f8d9a
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
