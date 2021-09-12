@@ -9,9 +9,7 @@ MaterialCommunityIcons.loadFont();
 
 import Home from '../screens/Home';
 import About from '../screens/About';
-
-import EditProfile from '../screens/EditProfile';
-import Profile from '../screens/Profile';
+import BarcodeScanner from '../screens/BarcodeScanner';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,6 +24,19 @@ const HomeStackScreen = ({navigation}) => (
       },
     }}>
     <Stack.Screen name="Home" component={Home} />
+  </Stack.Navigator>
+);
+
+const BarcodeStackScreen = ({ navigation }) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: '#000' },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+    <Stack.Screen name="Barcode Scanner" component={BarcodeScanner} />
   </Stack.Navigator>
 );
 
@@ -76,63 +87,62 @@ const HomeStackScreen = ({navigation}) => (
 
 const AppStack = () => {
   return (
-    <HomeStackScreen/>
+    // <HomeStackScreen/>
 
-    // <Tab.Navigator initialRouteName="Home" activeColor="#fff">
-    //   <Tab.Screen
-    //     name="Home"
-    //     component={HomeStackScreen}
-    //     options={{
-    //       tabBarLabel: 'Home',
-    //       tabBarColor: '#009387',
-    //       // tabBarIcon: ({color, size}) => (
-    //       //   <MaterialCommunityIcons
-    //       //     name="home-outline"
-    //       //     color={color}
-    //       //     size={size}
-    //       //   />
-    //       // ),
-    //     }}
-    //   />
+    <Tab.Navigator initialRouteName="Home" activeColor="#fff">
+      <Tab.Screen
+        name="Home"
+        component={HomeStackScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarColor: '#009387',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons
+              name="home-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
 
-    //   {/* <Tab.Screen
-    //     name="About"
-    //     component={AboutStackScreen}
-    //     options={{
-    //       tabBarLabel: 'About',
-    //       tabBarColor: '#009387',
-    //       tabBarIcon: ({color, size}) => (
-    //         <Icon name="information-circle-outline" color={color} size={size} />
-    //       ),
-    //       tabBarBadge: 3,
-    //     }}
-    //   /> */}
+      <Tab.Screen
+        name="Barcode Scanner"
+        component={BarcodeStackScreen}
+        options={{
+          tabBarLabel: 'Barcode Scanner',
+          tabBarColor: '#009387',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="information-circle-outline" color={color} size={size} />
+          ),
+        }}
+      />
 
-    //   {/* <Tab.Screen
-    //     name="Calendar"
-    //     component={CalendarScreen}
-    //     options={{
-    //       tabBarLabel: 'Calendar',
-    //       tabBarColor: '#009387',
-    //       tabBarIcon: ({color, size}) => (
-    //         <Icon name="calendar-outline" color={color} size={size} />
-    //       ),
-    //     }}
-    //   />
+      {/* <Tab.Screen
+        name="Calendar"
+        component={CalendarScreen}
+        options={{
+          tabBarLabel: 'Calendar',
+          tabBarColor: '#009387',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="calendar-outline" color={color} size={size} />
+          ),
+        }}
+      />
 
-    //   <Tab.Screen
-    //     name="Profile"
-    //     component={ProfileStackScreen}
-    //     options={{
-    //       tabBarLabel: 'Profile',
-    //       tabBarColor: '#009387',
-    //       tabBarIcon: ({color, size}) => (
-    //         <Icon name="person-outline" color={color} size={size} />
-    //       ),
-    //     }} 
-    //   />*/}
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackScreen}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarColor: '#009387',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="person-outline" color={color} size={size} />
+          ),
+        }} 
+      />*/}
 
-    // </Tab.Navigator>
+    </Tab.Navigator>
   
   );
 };
