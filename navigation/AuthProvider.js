@@ -1,20 +1,7 @@
 import React, {useState, createContext} from 'react';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-// import {
-//   LoginManager,
-//   AccessToken,
-//   GraphRequest,
-//   GraphRequestManager,
-// } from 'react-native-fbsdk-next';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
-import LoginFunctions from './LoginFunctions';
-import {Alert} from 'react-native';
 
 export const AuthContext = createContext();
 

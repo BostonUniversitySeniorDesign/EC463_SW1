@@ -1,40 +1,48 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import BarcodeMask from 'react-native-barcode-mask';
 import {RNCamera} from 'react-native-camera';
 
 const BarcodeScanner = ({navigation}) => {
-  const [barcode, setBarcode] = useState('');
+  const [scanAnother, setscanAnother] = useState(false);
+  const [isBarcodeRead, setIsBarcodeRead] = useState(false);
+  const [barcodeValue, setBarcodeValue] = useState('');
 
+  useEffect(() => {
+    if (isBarcodeRead) {
+      Alert.alert(barcodeValue, [
+        {
+          text: 'OK',
+          onPress: () => {
+            setIsBarcodeRead(false);
+            setBarcodeValue('');
+          },
+        },
+      ]);
+    }
+  }, [isBarcodeRead, barcodeValue]);
+
+  const onBarcodeRead = event => {
+    if (event.length > 0 && !isBarcodeRead) {
+      setIsBarcodeRead(true);
+      setBarcodeValue(event[0].data);
+    }
+  };
   return (
-    <View style={styles.container}>
-      <RNCamera
-        ref={ref => {
-          this.camera = ref;
-        }}
-        captureAudio={false}
-        style={styles.preview}
-        type={RNCamera.Constants.Type.back}
-        // flashMode={RNCamera.Constants.FlashMode.on}
-        onGoogleVisionBarcodesDetected={({barcodes}) => {
-          {
-            barcode.length
-              ? barcodes.map(bar => {
-                  setBarcode(bar.data);
-                })
-              : console.log('Searching..');
-          }
-        }}
-        // onBarCodeRead={({barcodes}) => {console.log(barcodes)}}
+    <RNCamera
+      captureAudio={false}
+      style={styles.preview}
+      type={RNCamera.Constants.Type.back}
+      onGoogleVisionBarcodesDetected={({barcodes}) => {
+        onBarcodeRead(barcodes);
+      }}>
+      <BarcodeMask
+        width={300}
+        height={300}
+        showAnimatedLine={false}
+        outerMaskOpacity={0.8}
       />
-      <View
-        style={{
-          flex: 0,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-        <Text>{barcode ? barcode : 'Searching...'}</Text>
-      </View>
-    </View>
+    </RNCamera>
   );
 };
 export default BarcodeScanner;
@@ -44,5 +52,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  preview: {
+    flex: 1,
   },
 });
