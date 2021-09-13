@@ -11,14 +11,13 @@ const ScannerComponent = () => {
 
   return (
     <>
-      {code && <p> code </p>}
       <BarCodeScanner
         onUpdate={(err, resp) => {
           if (resp) {
             setCode(resp.getText());
             axios
               .post(api_link, {
-                query: resp,
+                query: code,
               })
               .then(response => {
                 console.log(response.foods[0]);
