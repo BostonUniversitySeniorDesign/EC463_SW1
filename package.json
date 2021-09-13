@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "barcode-react-scanner": "^1.2.0",
-    "react": "17.0.2",
-    "react-native": "0.65.1",
-    "react-native-axios": "^0.17.1"
-    "@react-native-async-storage/async-storage": "^1.15.7",
+    "react": "^17.0.1",
+    "react-native": "0.64.2",
+    "react-native-axios": "^0.17.1",
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-native-firebase/app": "^12.1.0",
     "@react-native-firebase/auth": "^12.1.0",
@@ -24,8 +23,6 @@
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
-    "react": "^17.0.1",
-    "react-native": "0.64.2",
     "react-native-barcode-mask": "^1.2.4",
     "react-native-camera": "^4.1.1",
     "react-native-elements": "^3.4.2",
