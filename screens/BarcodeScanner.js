@@ -1,11 +1,17 @@
-<<<<<<< HEAD
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Button,
+} from 'react-native';
 import BarcodeMask from 'react-native-barcode-mask';
 import {RNCamera} from 'react-native-camera';
 import axios from 'react-native-axios';
 import firestore from '@react-native-firebase/firestore';
-import {restProperty} from '@babel/types';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProvider';
 
 const getNutrient = (list, nutrientID) => {
@@ -15,15 +21,6 @@ const getNutrient = (list, nutrientID) => {
     }
   }
 };
-=======
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert, Button} from 'react-native';
-import BarcodeMask from 'react-native-barcode-mask';
-import {RNCamera} from 'react-native-camera';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
-import FoodIntake from './FoodIntake';
->>>>>>> 329caae1e6760b1a2ad5e58e9c821f1e14bfc252
 
 const BarcodeScanner = ({navigation}) => {
   const [user, logout] = useContext(AuthContext);
