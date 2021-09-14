@@ -119,7 +119,7 @@ const EditProfile = ({navigation}) => {
   useEffect(() => {
     getUser();
     navigation.addListener('focus', () => setUploading(uploading));
-  }, [navigation, uploading]);
+  }, [getUser, navigation, uploading]);
 
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera({
