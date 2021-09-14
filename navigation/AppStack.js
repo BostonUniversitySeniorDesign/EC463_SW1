@@ -9,6 +9,7 @@ MaterialCommunityIcons.loadFont();
 
 import Home from '../screens/Home';
 import BarcodeScanner from '../screens/BarcodeScanner';
+import FoodIntake from '../screens/FoodIntake';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,8 +37,11 @@ const BarcodeStackScreen = ({ navigation }) => (
       },
     }}>
     <Stack.Screen name="Barcode Scanner" component={BarcodeScanner} />
+    <Stack.Screen name="Food Intake" component={FoodIntake} />
   </Stack.Navigator>
 );
+
+
 
 const AppStack = () => {
   return (

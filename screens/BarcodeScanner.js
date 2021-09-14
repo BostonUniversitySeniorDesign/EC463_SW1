@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import BarcodeMask from 'react-native-barcode-mask';
@@ -14,6 +15,15 @@ const getNutrient = (list, nutrientID) => {
     }
   }
 };
+=======
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Alert, Button} from 'react-native';
+import BarcodeMask from 'react-native-barcode-mask';
+import {RNCamera} from 'react-native-camera';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+import FoodIntake from './FoodIntake';
+>>>>>>> 329caae1e6760b1a2ad5e58e9c821f1e14bfc252
 
 const BarcodeScanner = ({navigation}) => {
   const [user, logout] = useContext(AuthContext);
@@ -71,20 +81,27 @@ const BarcodeScanner = ({navigation}) => {
     }
   };
   return (
-    <RNCamera
-      captureAudio={false}
-      style={styles.preview}
-      type={RNCamera.Constants.Type.back}
-      onGoogleVisionBarcodesDetected={({barcodes}) => {
-        onBarcodeRead(barcodes);
-      }}>
-      <BarcodeMask
-        width={300}
-        height={300}
-        showAnimatedLine={false}
-        outerMaskOpacity={0.8}
+    <SafeAreaView style={{flex: 1}}>
+      <RNCamera
+        captureAudio={false}
+        style={styles.preview}
+        type={RNCamera.Constants.Type.back}
+        onGoogleVisionBarcodesDetected={({barcodes}) => {
+          onBarcodeRead(barcodes);
+        }}>
+        <BarcodeMask
+          width={300}
+          height={300}
+          showAnimatedLine={false}
+          outerMaskOpacity={0.8}
+        />
+      </RNCamera>
+      <Button
+        style={{flex: 1}}
+        title="Go to Food Intake"
+        onPress={() => navigation.navigate('Food Intake')}
       />
-    </RNCamera>
+    </SafeAreaView>
   );
 };
 export default BarcodeScanner;
