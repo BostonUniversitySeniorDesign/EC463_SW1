@@ -16,6 +16,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
 
+const testBarcode = '034856050926';
+
 const getNutrient = (list, nutrientID) => {
   for (let item = 0; item < list.length; item++) {
     if (list[item].nutrientId === nutrientID) {
@@ -26,23 +28,26 @@ const getNutrient = (list, nutrientID) => {
 
 const BarcodeScanner = ({navigation}) => {
   const {user, logout} = useContext(AuthContext);
-  const [servings, setServings] = useState(4);
+  const [servings, setServings] = useState(1);
   const [nutritionData, setNutritionData] = useState({});
   const [isBarcodeRead, setIsBarcodeRead] = useState(false);
   const [barcodeValue, setBarcodeValue] = useState('');
 
   const ref = firestore().collection('foods');
+  // const ref = firestore().collection(user.uid).doc('My Recipe').collection('Recipes');
 
   const updateValues = async () => {
     let now = new Date();
 
-    await ref.add({
-      food: nutritionData,
-      time: now.toISOString().split('T')[0],
-    }).then(() => {
-      console.log('Food uploaded to firebase!');
-      Alert.alert('Food added!');
-    });
+    await ref
+      .add({
+        food: nutritionData,
+        time: now.toISOString().split('T')[0],
+      })
+      .then(() => {
+        console.log('Food uploaded to firebase!');
+        Alert.alert('Food added!');
+      });
   };
 
   useEffect(() => {
@@ -60,7 +65,8 @@ const BarcodeScanner = ({navigation}) => {
           let nutrition_data = {
             name: food.description,
             cals: parseFloat(servings) * getNutrient(food.foodNutrients, 1008),
-            protein: parseFloat(servings) * getNutrient(food.foodNutrients, 1003),
+            protein:
+              parseFloat(servings) * getNutrient(food.foodNutrients, 1003),
             carb: parseFloat(servings) * getNutrient(food.foodNutrients, 1005),
             fat: parseFloat(servings) * getNutrient(food.foodNutrients, 1004),
           };
@@ -76,11 +82,9 @@ const BarcodeScanner = ({navigation}) => {
     }
   };
 
-  const testBarcode = '034856050926';
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {/* {barcodeValue ?  */}
       <RNCamera
         captureAudio={false}
         style={styles.preview}
@@ -118,7 +122,6 @@ const BarcodeScanner = ({navigation}) => {
           />
         </View>
       )}
-      
     </SafeAreaView>
   );
 };
