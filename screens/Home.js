@@ -1,18 +1,19 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
 
 export default function Home({navigation}) {
   const {logout} = useContext(AuthContext);
+  const [testing, setTesting] = useState(true);
   return (
     <View style={styles.container}>
       <Text>Home Screen page</Text>
       <Button
         title="Go to something screen"
         // onPress={() => navigation.navigate("About")}
-        onPress={() => {}}
+        onPress={() => {setTesting(!testing)}}
       />
-      <Button title="Sign out" onPress={() => logout()} />
+      {testing ? <View><Text>Hi</Text></View> : <Button title="Sign out" onPress={() => logout()} />}
     </View>
   );
 }
