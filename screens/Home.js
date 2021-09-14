@@ -2,13 +2,15 @@ import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
 
+import FoodIntake from './FoodIntake';
+
 export default function Home({navigation}) {
   const {logout} = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text>Home Screen page</Text>
       <Button
-        title="Go to details screen"
+        title="Go to something screen"
         // onPress={() => navigation.navigate("About")}
         onPress={() => {}}
       />
