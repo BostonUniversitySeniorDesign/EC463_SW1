@@ -11,10 +11,7 @@
   },
   "dependencies": {
     "barcode-react-scanner": "^1.2.0",
-    "react": "17.0.2",
-    "react-native": "0.65.1",
-    "react-native-axios": "^0.17.1"
-    "@react-native-async-storage/async-storage": "^1.15.7",
+    "react-native-axios": "^0.17.1",
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-native-firebase/app": "^12.1.0",
     "@react-native-firebase/auth": "^12.1.0",
