@@ -2,8 +2,6 @@ import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
 
-import FoodIntake from './FoodIntake';
-
 export default function Home({navigation}) {
   const {logout} = useContext(AuthContext);
   return (
