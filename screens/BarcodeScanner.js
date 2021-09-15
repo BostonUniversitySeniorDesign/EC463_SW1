@@ -7,16 +7,10 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProvider';
 
-const testBarcode = '034856050926';
-const timeNow = new Date().toDateString();
+const testBarcode = '034856050926'; // Sweets
+// const testBarcode = '788434106382'; // Protein Bars
 
-const getNutrient = (list, nutrientID) => {
-  for (let item = 0; item < list.length; item++) {
-    if (list[item].nutrientId === nutrientID) {
-      return list[item].value;
-    }
-  }
-};
+const timeNow = new Date().toDateString();
 
 const BarcodeScanner = ({navigation}) => {
   const {user, logout} = useContext(AuthContext);
@@ -27,7 +21,15 @@ const BarcodeScanner = ({navigation}) => {
   const [barcodeValue, setBarcodeValue] = useState('');
 
   const ref = firestore().collection(user.uid).doc(timeNow);
-  // const ref = firestore().collection(user.uid).doc('My Recipe').collection('Recipes');
+
+  const getNutrient = (list, nutrientID) => {
+    for (let item = 0; item < list.length; item++) {
+      if (list[item].nutrientId === nutrientID) {
+        return Math.round(list[item].value);
+      }
+    }
+  };
+
   const getInfo = async () => {
     await firestore()
       .collection(user.uid)
@@ -46,11 +48,8 @@ const BarcodeScanner = ({navigation}) => {
 
     if (document && document.exists) {
       await ref
-        // .add({
-        // .set({
         .update({
           food: nutritionData,
-          // time: timeNow.toISOString().split('T')[0],
           time: timeNow,
         })
         .then(() => {
@@ -62,6 +61,7 @@ const BarcodeScanner = ({navigation}) => {
         .set({
           food: nutritionData,
           // time: timeNow.toISOString().split('T')[0],
+          // name: 
           time: timeNow,
         })
         .then(() => {
@@ -77,11 +77,8 @@ const BarcodeScanner = ({navigation}) => {
     });
     navigation.addListener('blur', () => {
       setIsBarcodeRead(false);
-      // console.log('blur');
     });
     if (isBarcodeRead) {
-      // setIsBarcodeRead(false);
-      // setBarcodeValue('');
       let api_query = {query: barcodeValue};
       axios
         .post(
