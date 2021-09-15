@@ -1,22 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  Button,
-  TextInput,
-} from 'react-native';
+import {View, Text, StyleSheet, Alert, Button, TextInput} from 'react-native';
 import BarcodeMask from 'react-native-barcode-mask';
 import {RNCamera} from 'react-native-camera';
 import axios from 'react-native-axios';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProvider';
-import FormInput from '../components/FormInput';
 
 const testBarcode = '034856050926';
+const timeNow = new Date().toDateString();
 
 const getNutrient = (list, nutrientID) => {
   for (let item = 0; item < list.length; item++) {
@@ -28,29 +20,65 @@ const getNutrient = (list, nutrientID) => {
 
 const BarcodeScanner = ({navigation}) => {
   const {user, logout} = useContext(AuthContext);
+  const [userData, setUserData] = useState(null);
   const [servings, setServings] = useState(1);
   const [nutritionData, setNutritionData] = useState({});
   const [isBarcodeRead, setIsBarcodeRead] = useState(false);
   const [barcodeValue, setBarcodeValue] = useState('');
 
-  const ref = firestore().collection('foods');
+  const ref = firestore().collection(user.uid).doc(timeNow);
   // const ref = firestore().collection(user.uid).doc('My Recipe').collection('Recipes');
-
-  const updateValues = async () => {
-    let now = new Date();
-
-    await ref
-      .add({
-        food: nutritionData,
-        time: now.toISOString().split('T')[0],
-      })
-      .then(() => {
-        console.log('Food uploaded to firebase!');
-        Alert.alert('Food added!');
+  const getInfo = async () => {
+    await firestore()
+      .collection(user.uid)
+      .doc(timeNow)
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          setUserData(documentSnapshot.data());
+        }
       });
   };
 
+  const updateValues = async () => {
+    const document = ref.get();
+
+    if (document && document.exists) {
+      await ref
+        // .add({
+        // .set({
+        .update({
+          food: nutritionData,
+          // time: timeNow.toISOString().split('T')[0],
+          time: timeNow,
+        })
+        .then(() => {
+          console.log('Food uploaded to firebase!');
+          Alert.alert('Food added!');
+        });
+    } else {
+      await ref
+        .set({
+          food: nutritionData,
+          // time: timeNow.toISOString().split('T')[0],
+          time: timeNow,
+        })
+        .then(() => {
+          console.log('Food uploaded to firebase!');
+          Alert.alert('Food added!');
+        });
+    }
+  };
+
   useEffect(() => {
+    navigation.addListener('focus', () => {
+      getInfo();
+    });
+    navigation.addListener('blur', () => {
+      setIsBarcodeRead(false);
+      // console.log('blur');
+    });
     if (isBarcodeRead) {
       // setIsBarcodeRead(false);
       // setBarcodeValue('');
@@ -62,15 +90,36 @@ const BarcodeScanner = ({navigation}) => {
         )
         .then(resp => {
           let food = resp.data.foods[0];
-          let nutrition_data = {
-            name: food.description,
-            cals: parseFloat(servings) * getNutrient(food.foodNutrients, 1008),
-            protein:
-              parseFloat(servings) * getNutrient(food.foodNutrients, 1003),
-            carb: parseFloat(servings) * getNutrient(food.foodNutrients, 1005),
-            fat: parseFloat(servings) * getNutrient(food.foodNutrients, 1004),
-          };
-          setNutritionData(nutrition_data);
+          if (userData) {
+            let nutrition_data = {
+              name: food.description,
+              cals:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1008) +
+                userData.food.cals,
+              protein:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1003) +
+                userData.food.protein,
+              carb:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1005) +
+                userData.food.carb,
+              fat:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1004) +
+                userData.food.fat,
+            };
+            setNutritionData(nutrition_data);
+          } else {
+            let nutrition_data = {
+              name: food.description,
+              cals:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1008),
+              protein:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1003),
+              carb:
+                parseFloat(servings) * getNutrient(food.foodNutrients, 1005),
+              fat: parseFloat(servings) * getNutrient(food.foodNutrients, 1004),
+            };
+            setNutritionData(nutrition_data);
+          }
         });
     }
   }, [isBarcodeRead, barcodeValue]);
@@ -82,46 +131,52 @@ const BarcodeScanner = ({navigation}) => {
     }
   };
 
-
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <RNCamera
-        captureAudio={false}
-        style={styles.preview}
-        type={RNCamera.Constants.Type.back}
-        onGoogleVisionBarcodesDetected={({barcodes}) => {
-          onBarcodeRead(barcodes);
-        }}>
-        <BarcodeMask
-          width={300}
-          height={300}
-          showAnimatedLine={false}
-          outerMaskOpacity={0.8}
+  if (!isBarcodeRead) {
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <RNCamera
+          captureAudio={false}
+          style={styles.preview}
+          type={RNCamera.Constants.Type.back}
+          onGoogleVisionBarcodesDetected={({barcodes}) => {
+            console.log(barcodes);
+            onBarcodeRead(barcodes);
+          }}>
+          <BarcodeMask
+            width={300}
+            height={300}
+            showAnimatedLine={false}
+            outerMaskOpacity={0.8}
+          />
+        </RNCamera>
+        <Button
+          title="Testing Barcode"
+          onPress={() => {
+            setIsBarcodeRead(true);
+            setBarcodeValue(testBarcode);
+          }}
         />
-      </RNCamera>
-      {isBarcodeRead ? (
-        <View style={styles.action}>
-          <TextInput
-            placeholder="Number of servings"
-            placeholderTextColor="#666666"
-            value={servings ? servings : ''}
-            onChangeText={txt => setServings(txt)}
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-          <Button title="Send to DB" onPress={updateValues} />
-        </View>
-      ) : (
-        <View>
-          <Button
-            title="Testing Barcode"
-            onPress={() => {
-              setIsBarcodeRead(true);
-              setBarcodeValue(testBarcode);
-            }}
-          />
-        </View>
-      )}
+      </SafeAreaView>
+    );
+  }
+  return (
+    <SafeAreaView
+      style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text style={styles.action}>
+        Input the number of servings for the item of food
+      </Text>
+      <View style={styles.action}>
+        <TextInput
+          placeholder="Number of servings"
+          placeholderTextColor="#666666"
+          value={servings ? servings.toString() : ''}
+          onChangeText={txt => setServings(txt)}
+          autoCorrect={false}
+          style={styles.textInput}
+          keyboardType="number-pad"
+        />
+        <Button title="Send to DB" onPress={updateValues} />
+      </View>
     </SafeAreaView>
   );
 };
