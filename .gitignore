@@ -4,7 +4,7 @@
 
 # API_KEYS
 #
-../utils/keys
+keys/
 
 # Xcode
 #

@@ -5,7 +5,7 @@ import SignInScreen from '../screens/SignIn';
 import Icon from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import GOOGLE_API_KEY from '../utils/keys';
+import GOOGLE_API_KEY from '../keys/keys';
 
 const Stack = createStackNavigator();
 
