@@ -17,6 +17,7 @@ const BarcodeScanner = ({navigation}) => {
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
   const [servings, setServings] = useState(1);
+  const [itemName, setItemName] = useState('');
   const [nutritionData, setNutritionData] = useState({});
   const [isBarcodeRead, setIsBarcodeRead] = useState(false);
   const [barcodeValue, setBarcodeValue] = useState('');
@@ -45,29 +46,56 @@ const BarcodeScanner = ({navigation}) => {
   };
 
   const updateValues = async () => {
-    const document = ref.get();
-
-    if (document && document.exists) {
-      await ref
-        .update({
-          food: nutritionData,
-          time: timeNow,
-        })
-        .then(() => {
-          console.log('Food uploaded to firebase!');
-          Alert.alert('Food added!');
-        });
-    } else {
-      await ref
-        .set({
-          food: nutritionData,
-          time: timeNow,
-        })
-        .then(() => {
-          console.log('Food uploaded to firebase!');
-          Alert.alert('Food added!');
-        });
-    }
+    ref.get().then(document => {
+      if (document.exists) {
+        ref
+          .update({
+            food: nutritionData,
+            time: timeNow,
+            items: firestore.FieldValue.arrayUnion(itemName),
+          })
+          .then(() => {
+            console.log('Food uploaded to firebase!');
+            Alert.alert('Food added!');
+          });
+      } else {
+        ref
+          .set({
+            food: nutritionData,
+            time: timeNow,
+            items: firestore.FieldValue.arrayUnion(itemName),
+          })
+          .then(() => {
+            console.log('First food uploaded to firebase!');
+            Alert.alert('First bit of food added!');
+          });
+      }
+    });
+    // console.log(document);
+    // if (document && document.exists) {
+    //   await ref
+    //     .update({
+    //       food: nutritionData,
+    //       time: timeNow,
+    //       items: firestore.FieldValue.arrayUnion('Protein Bars'),
+    //     })
+    //     .then(() => {
+    //       console.log('Food uploaded to firebase!');
+    //       Alert.alert('Food added!');
+    //     });
+    // }
+    // else {
+    //   await ref
+    //     .set({
+    //       food: nutritionData,
+    //       time: timeNow,
+    //       items: firestore.FieldValue.arrayUnion('Sweets'),
+    //     })
+    //     .then(() => {
+    //       console.log('First food uploaded to firebase!');
+    //       Alert.alert('First food added!');
+    //     });
+    // }
   };
 
   useEffect(() => {
@@ -101,7 +129,7 @@ const BarcodeScanner = ({navigation}) => {
             );
           } else if (userData) {
             let nutrition_data = {
-              name: food.description,
+              // name: food.description,
               cals:
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1008) +
                 userData.food.cals,
@@ -115,10 +143,11 @@ const BarcodeScanner = ({navigation}) => {
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1004) +
                 userData.food.fat,
             };
+            setItemName(food.description);
             setNutritionData(nutrition_data);
           } else {
             let nutrition_data = {
-              name: food.description,
+              // name: food.description,
               cals:
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1008),
               protein:
@@ -127,6 +156,7 @@ const BarcodeScanner = ({navigation}) => {
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1005),
               fat: parseFloat(servings) * getNutrient(food.foodNutrients, 1004),
             };
+            setItemName(food.description);
             setNutritionData(nutrition_data);
           }
         });
@@ -158,9 +188,16 @@ const BarcodeScanner = ({navigation}) => {
             outerMaskOpacity={0.8}
           />
         </RNCamera>
-        <View style={styles.text}>
+        <Button
+          title="Testing Barcode"
+          onPress={() => {
+            setIsBarcodeRead(true);
+            setBarcodeValue(testBarcode);
+          }}
+        />
+        {/* <View style={styles.text}>
           <Text style={{fontSize: 25}}>Scan The Barcode!</Text>
-        </View>
+        </View> */}
       </SafeAreaView>
     );
   }
