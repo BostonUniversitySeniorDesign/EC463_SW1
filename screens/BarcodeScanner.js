@@ -71,31 +71,6 @@ const BarcodeScanner = ({navigation}) => {
           });
       }
     });
-    // console.log(document);
-    // if (document && document.exists) {
-    //   await ref
-    //     .update({
-    //       food: nutritionData,
-    //       time: timeNow,
-    //       items: firestore.FieldValue.arrayUnion('Protein Bars'),
-    //     })
-    //     .then(() => {
-    //       console.log('Food uploaded to firebase!');
-    //       Alert.alert('Food added!');
-    //     });
-    // }
-    // else {
-    //   await ref
-    //     .set({
-    //       food: nutritionData,
-    //       time: timeNow,
-    //       items: firestore.FieldValue.arrayUnion('Sweets'),
-    //     })
-    //     .then(() => {
-    //       console.log('First food uploaded to firebase!');
-    //       Alert.alert('First food added!');
-    //     });
-    // }
   };
 
   useEffect(() => {
@@ -129,7 +104,6 @@ const BarcodeScanner = ({navigation}) => {
             );
           } else if (userData) {
             let nutrition_data = {
-              // name: food.description,
               cals:
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1008) +
                 userData.food.cals,
@@ -147,7 +121,6 @@ const BarcodeScanner = ({navigation}) => {
             setNutritionData(nutrition_data);
           } else {
             let nutrition_data = {
-              // name: food.description,
               cals:
                 parseFloat(servings) * getNutrient(food.foodNutrients, 1008),
               protein:
@@ -188,16 +161,16 @@ const BarcodeScanner = ({navigation}) => {
             outerMaskOpacity={0.8}
           />
         </RNCamera>
-        <Button
+        {/* <Button
           title="Testing Barcode"
           onPress={() => {
             setIsBarcodeRead(true);
             setBarcodeValue(testBarcode);
           }}
-        />
-        {/* <View style={styles.text}>
+        /> */}
+        <View style={styles.text}>
           <Text style={{fontSize: 25}}>Scan The Barcode!</Text>
-        </View> */}
+        </View>
       </SafeAreaView>
     );
   }
