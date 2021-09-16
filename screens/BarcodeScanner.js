@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProvider';
 
 const testBarcode = '034856050926'; // Sweets
+// const testBarcode = '08811014005'; // Whisky, Doesnt work
 // const testBarcode = '788434106382'; // Protein Bars
 
 const timeNow = new Date().toDateString();
@@ -60,8 +61,6 @@ const BarcodeScanner = ({navigation}) => {
       await ref
         .set({
           food: nutritionData,
-          // time: timeNow.toISOString().split('T')[0],
-          // name: 
           time: timeNow,
         })
         .then(() => {
@@ -73,10 +72,11 @@ const BarcodeScanner = ({navigation}) => {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
+      setIsBarcodeRead(false);
       getInfo();
     });
     navigation.addListener('blur', () => {
-      setIsBarcodeRead(false);
+      setIsBarcodeRead(true);
     });
     if (isBarcodeRead) {
       let api_query = {query: barcodeValue};
@@ -87,7 +87,19 @@ const BarcodeScanner = ({navigation}) => {
         )
         .then(resp => {
           let food = resp.data.foods[0];
-          if (userData) {
+          if (!food) {
+            Alert.alert(
+              'Error!',
+              'Item is not registered! Going back to the Home page.',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: navigation.navigate('Home'),
+                  style: 'cancel',
+                },
+              ],
+            );
+          } else if (userData) {
             let nutrition_data = {
               name: food.description,
               cals:
@@ -119,7 +131,7 @@ const BarcodeScanner = ({navigation}) => {
           }
         });
     }
-  }, [isBarcodeRead, barcodeValue]);
+  }, [isBarcodeRead, navigation]);
 
   const onBarcodeRead = event => {
     if (event.length > 0 && !isBarcodeRead) {
@@ -146,13 +158,9 @@ const BarcodeScanner = ({navigation}) => {
             outerMaskOpacity={0.8}
           />
         </RNCamera>
-        <Button
-          title="Testing Barcode"
-          onPress={() => {
-            setIsBarcodeRead(true);
-            setBarcodeValue(testBarcode);
-          }}
-        />
+        <View style={styles.text}>
+          <Text style={{fontSize: 25}}>Scan The Barcode!</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -201,5 +209,9 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingLeft: 10,
     color: '#333333',
+  },
+  text: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
