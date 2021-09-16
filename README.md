@@ -27,7 +27,8 @@ Then:
 - The query object is posted to the Food Data Central (FDC) API
 - This query returns an array of possible matches, the first element being the relevant item
 - This food item is taken, its foodNutrients array elements searched for calories and macronutrients
-- This data is then stored in a structure along with a Date string of the current day and sent to the Firebase database
+- This data is then stored in an object
+- This object is then stored in a collection named the uID, in a document named after the current Date
 
 ## Testing:
 
