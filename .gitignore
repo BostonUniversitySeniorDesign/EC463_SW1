@@ -3,8 +3,8 @@
 .DS_Store
 
 # API_KEYS
-# ADD FILE
-
+#
+../utils/keys.js
 
 # Xcode
 #
