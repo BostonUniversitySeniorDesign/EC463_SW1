@@ -2,10 +2,6 @@
 #
 .DS_Store
 
-# API_KEYS
-#
-keys/
-
 # Xcode
 #
 build/
