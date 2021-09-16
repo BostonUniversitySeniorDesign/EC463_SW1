@@ -50,5 +50,11 @@ Then:
 - On completion of this query its result was then sent to the Firebase DB attached to the tester's uID
 
 ### Images/Videos:
+
+#### Example Barcode Scanner Screen
+
 ![Simulator Screen Shot - iPhone 12 - 2021-09-16 at 14 11 39](https://user-images.githubusercontent.com/60196280/133677049-37242c0d-7f3e-41e6-8ce3-2f135020f9cc.png)
+
+#### Example Profile Screen
+
 ![Simulator Screen Shot - iPhone 12 - 2021-09-16 at 14 11 48](https://user-images.githubusercontent.com/60196280/133677070-e8fe7181-92fc-4bb5-ad7f-61a519834b9f.png)
