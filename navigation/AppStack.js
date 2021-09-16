@@ -11,13 +11,12 @@ import {AuthContext} from './AuthProvider';
 import Home from '../screens/Home';
 import BarcodeScanner from '../screens/BarcodeScanner';
 import Profile from '../screens/Profile';
+import EditProfile from '../screens/EditProfile';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
-  const {logout} = useContext(AuthContext);
-
   const HomeStackScreen = ({navigation}) => (
     <Stack.Navigator
       screenOptions={{
@@ -52,19 +51,16 @@ const AppStack = () => {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerLeft: () => (
-          <View style={{marginLeft: 10}}>
-            <Icon.Button
-              name="log-out-outline"
-              size={25}
-              backgroundColor="#000"
-              color="#fff"
-              onPress={() => logout()}
-            />
-          </View>
-        ),
       }}>
       <Stack.Screen name="Profile" component={Profile} />
+
+      <Stack.Screen
+        name="EditProfile"
+        options={{
+          title: 'Edit Profile',
+        }}
+        component={EditProfile}
+      />
     </Stack.Navigator>
   );
 

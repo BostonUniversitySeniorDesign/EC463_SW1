@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
@@ -11,11 +12,24 @@ import {AuthContext} from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Home({navigation}) {
-  const {user} = useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState(null);
   const [userData, setUserData] = useState(null);
   const timeNow = new Date().toDateString();
 
   const getInfo = async () => {
+    await firestore()
+      .collection(user.uid)
+      .doc('info')
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          console.log('User info: ', documentSnapshot.data());
+          setUserInfo(documentSnapshot.data());
+        }
+      });
+  };
+  const getData = async () => {
     await firestore()
       .collection(user.uid)
       .doc(timeNow)
@@ -31,59 +45,72 @@ export default function Home({navigation}) {
   useEffect(() => {
     navigation.addListener('focus', () => {
       getInfo();
+      getData();
     });
-  }, [navigation, getInfo]);
+  }, [navigation, getInfo, getData]);
 
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.info}>Your Daily Intake</Text>
-    //   <Text>Calories: {userData ? userData.food.cals : 0}</Text>
-    //   <Text>Carbohydrates: {userData ? userData.food.carb : 0}</Text>
-    //   <Text>Fat: {userData ? userData.food.fat : 0}</Text>
-    //   <Text>Protein: {userData ? userData.food.protein : 0}</Text>
-
-    //   <Text style={styles.info}>Your Items:</Text>
-    //   {userData
-    //     ? userData.items.map((item, key) => (
-    //         <Text style={{textAlign: 'center'}} key={key}>
-    //           * {item}
-    //         </Text>
-    //       ))
-    //     : null}
-    // </View>
-
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
         showsVerticalScrollIndicator={false}>
-        <Text style={styles.userName}>User's Information</Text>
+        <Image style={styles.userImg} source={require('../assets/doge.jpg')} />
+
+        <Text style={styles.userName}>
+          {userInfo ? userInfo.fname || 'Test' : 'Test'}{' '}
+          {userInfo ? userInfo.lname || 'User' : 'User'}
+        </Text>
+
+        <Text style={styles.aboutUser}>
+          {userInfo ? 'Your daily goal is: ' : ''}
+          {userInfo ? userInfo.goal || 'No goals added.' : ''}
+          {userInfo ? 'g of calories' : ''}
+        </Text>
+
+        <View style={styles.userBtnWrapper}>
+          <TouchableOpacity style={styles.userBtn}>
+            <Text
+              style={styles.userBtnTxt}
+              onPress={() => {
+                navigation.navigate('EditProfile');
+              }}>
+              Edit
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.userBtn}>
+            <Text style={styles.userBtnTxt} onPress={() => logout()}>
+              Logout
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.userInfoWrapper}>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>
-              {userData ? userData.food.cals : 0}
+              {userData ? userData.food.cals : 0}g
             </Text>
             <Text style={styles.userInfoSubTitle}>Calories</Text>
           </View>
 
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>
-              {userData ? userData.food.carb : 0}
+              {userData ? userData.food.carb : 0}g
             </Text>
             <Text style={styles.userInfoSubTitle}>Carbohydrates</Text>
           </View>
 
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>
-              {userData ? userData.food.fat : 0}
+              {userData ? userData.food.fat : 0}g
             </Text>
             <Text style={styles.userInfoSubTitle}>Fat</Text>
           </View>
 
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>
-              {userData ? userData.food.protein : 0}
+              {userData ? userData.food.protein : 0}g
             </Text>
             <Text style={styles.userInfoSubTitle}>Protein</Text>
           </View>
