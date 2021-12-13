@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {View, Text, StyleSheet, Alert, Button, TextInput} from 'react-native';
 import BarcodeMask from 'react-native-barcode-mask';
 import {RNCamera} from 'react-native-camera';
@@ -32,7 +32,7 @@ const BarcodeScanner = ({navigation}) => {
     }
   };
 
-  const getInfo = async () => {
+  const getInfo = useCallback(async () => {
     await firestore()
       .collection(user.uid)
       .doc(timeNow)
@@ -43,7 +43,7 @@ const BarcodeScanner = ({navigation}) => {
           setUserData(documentSnapshot.data());
         }
       });
-  };
+  }, []);
 
   const updateValues = async () => {
     ref.get().then(document => {
@@ -161,13 +161,13 @@ const BarcodeScanner = ({navigation}) => {
             outerMaskOpacity={0.8}
           />
         </RNCamera>
-        {/* <Button
+        <Button
           title="Testing Barcode"
           onPress={() => {
             setIsBarcodeRead(true);
             setBarcodeValue(testBarcode);
           }}
-        /> */}
+        />
         <View style={styles.text}>
           <Text style={{fontSize: 25}}>Scan The Barcode!</Text>
         </View>

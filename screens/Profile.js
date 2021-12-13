@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ export default function Home({navigation}) {
   const [userData, setUserData] = useState(null);
   const timeNow = new Date().toDateString();
 
-  const getInfo = async () => {
+  const getInfo = useCallback(async () => {
     await firestore()
       .collection(user.uid)
       .doc('info')
@@ -28,8 +28,9 @@ export default function Home({navigation}) {
           setUserInfo(documentSnapshot.data());
         }
       });
-  };
-  const getData = async () => {
+  }, []);
+
+  const getData = useCallback(async () => {
     await firestore()
       .collection(user.uid)
       .doc(timeNow)
@@ -40,7 +41,7 @@ export default function Home({navigation}) {
           setUserData(documentSnapshot.data());
         }
       });
-  };
+  }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
